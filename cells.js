@@ -31,7 +31,7 @@ function updateState(){
         if(c3c.includes(cellString)) return ["3c","Three corners"];
         if(c3e.includes(cellString)) return ["3e","Arrow"];
         if(c3k.includes(cellString)) return ["3k","Bi-knight"];
-        if(c3a.includes(cellString)) return ["3a","Block"];
+        if(c3a.includes(cellString)) return ["3a","Pre-block"];
         if(c3i.includes(cellString)) return ["3i","Bar"];
         if(c3n.includes(cellString)) return ["3n","Cis domino-corner"];
         if(c3y.includes(cellString)) return ["3y","Triangle"];
