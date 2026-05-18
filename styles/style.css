@@ -23,34 +23,57 @@ html, body {
   font-size: large;
 }
 
-#ramble{
+.ramble{
   margin:auto;
   width:80%;
   text-align: left;
 }
 
-table, th, td {
+.grid table, .grid th, .grid td {
   border:2px solid #2b2b2d;
   border-collapse: collapse;
 }
 
-tr{
+.grid tr{
     height: 60px;
 }
 
-td{
+.grid td{
    background-color: #484d6977;
    width: 60px;
 }
 
-td.active{
+.grid td.active{
   background-color: #fff157;
 }
 
-td.middle{
+.grid td.middle{
   background-color: #a64c68bb;
 }
 
-td.corner, td.edge{
+.grid td.corner, .grid td.edge{
   cursor: pointer;
+}
+
+#resultsTableContainer{
+  overflow-x: auto;
+  width: 100%;
+}
+
+#resultsTableContainer table, th, td{
+  border:1px solid #2b2b2d;
+  border-collapse: collapse;
+}
+
+#resultsTableContainer table{
+  width: 100%;
+  white-space: nowrap;
+}
+
+#resultsTableContainer th,td {
+  padding:2px;
+}
+
+.intSetting{
+  width: 40px;
 }

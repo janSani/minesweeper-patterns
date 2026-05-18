@@ -34,8 +34,8 @@
         <button id="invertBtn">Invert</button>
         <button id="randomBtn">Random</button>
     </div>
-    <section id="ramble">
-        <h3>The motivation</h3>
+    <section class="ramble">
+        <h3>Motivation</h3>
         <p>
             In the game Minesweeper each numbered clue is surrounded by the corresponding 
             number of mines. But have you ever wondered how many possible ways can mines surround each number?
@@ -55,8 +55,85 @@
             and display which non-totalistic rule satisfies, along with the name I gave to the pattern, some of which I modified from the original.
         </p>
     </section>
+    <section class="ramble">
+        <h2>Frequency of each configuration in Minesweeper</h2>
+        <p>Putting the focus back on Minesweeper, it's only natural to ask how often these patterns appear in actual boards.</p>
+        <p>In order to estimate this I ran some simulations. I am purposefully ignoring nuances like first click or 3BV and simply generating
+            random boards of given size and number of mines, then for each cell the neighborhood configuration is identified.  
+        </p>
+        <p>By default the algorithm does this for every cell, but we can limit the search to non-mines or cells not on the boundary, 
+            just for the sake of analysis.</p>
+    </section>
+    <section class="ramble">
+        <h3>Results</h3>
+        <p>For each board, I generated 10 millions boards. As for the 8s in beginner 9x9, I didn't get any, which is to be expected,
+            as the theoretical probability for an 8 in this size is around 1 in 15 million, 
+            compared to the 1 in 2.8 million of beginner 8x8.
+        </p>
+        <p>This is not an exhaustive search, Javascript is painfully slow and my code is far from
+            being optimized, so the less common numbers 7 and 8 may not robustly reflect the true probability of finding these on boards.
+            Feel free to take a look at the code on this page or its <a href="https://github.com/janSani/moore-neighborhood">repository</a> if you want to deep further in.
+        </p>
+        <p>But if you don't want to look at code and just want to visualize the boards being generated, 
+            and build your own results table, then the next section is for you!.</p>
+        <label for="boardSel">Select a board</label>
+        <select name="boardSel" id="boardSel">
+            <option value="beginner8x8">Beginner 8x8</option>
+            <option value="beginner9x9">Beginner 9x9</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="expert">Expert</option>
+        </select><br>
+        <label for="conditionSel">Limit search to</label>
+        <select name="conditionSel" id="conditionSel">
+            <option value="fullBoard">All cells (mines and non-mines)</option>
+            <option value="emptyCells">Only non-mine cells</option>
+            <option value="nonBoundary">Cells not on the boundary</option>
+            <option value="nonBoundaryEmpty">Non-mine cells not on the boundary</option>
+        </select><br>
+        <button id="resultsBtn">Show me some results</button>
+        <div id="resultsTableContainer">
+            You may have to scroll sideways to read the full table.
+            <table id="resultsTable"></table>
+            <p id="numTableTitle"></p>
+            <table id="numTable"></table>
+        </div>
+    </section>
+    <section class="ramble">
+        <h2>Visualize board generation</h2>
+        <p>To wrap things up, I made an interactive Minesweeper board generator, which lets you generate random boards and
+            generate a list of all patterns you find. Alternatively, you can draw your own boards to test.
+        </p>
+        <label for="intBoardSel">Select a board</label>
+        <select name="intBoardSel" id="intBoardSel">
+            <option value="beginner8x8">Beginner 8x8</option>
+            <option value="beginner9x9">Beginner 9x9</option>
+            <option value="intermediate">Intermediate</option>
+            <option value="expert">Expert</option>
+            <option value="custom">Custom</option>
+        </select>
+        <br>
+        <label for="intBoardWidth">Width</label>
+        <input type="text" id="intBoardWidth" value="8" class="intSetting" disabled>
+        <label for="intBoardHeight">Height</label>
+        <input type="text" id="intBoardHeight" value="8" class="intSetting" disabled>
+        <label for="intBoardMines">Mines</label>
+        <input type="text" id="intBoardMines" value="10" class="intSetting" disabled>
+        <br>
+        <select name="intMode" id="intMode">
+            <option value="generate">Board generator</option>
+            <option value="draw">Draw your own board</option>
+        </select>
+        <button id="makeIntBoardBtn">Make board</button>
+        <div id="intBoardContainer">
+            <table id="intBoard"></table>
+        </div>
+    </section>
     <footer><a href="..">Check out my other stuff</a></footer>
     <script src="scripts/patterns.js"></script>
     <script src="scripts/update.js"></script>
     <script src="scripts/buttons.js"></script>
+    <script src="scripts/simulation-funcs.js"></script>
+    <script src="scripts/results.js"></script>
+    <script src="scripts/tablemaker.js"></script>
+    <script src="scripts/interactive-board.js"></script>
 </body>
