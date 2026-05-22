@@ -2,24 +2,29 @@ body{
   background-color: #cdd2f0;
   font-family: Arial, Helvetica, sans-serif;
   text-align: center;
+  font-size: .9rem;
 }
 
 html, body {
   touch-action: manipulation;
 }
 
-.container {
+.intGridContainer {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 4px 0px;
 }
 
-#golly{
-  font-size:xx-large;
+.settingsContainer{
+  line-height: 1.5;
 }
 
-#silly{
+/* #gridGollyName{
+  font-size:xx-large;
+} */
+
+#gridSillyName{
   font-size: large;
 }
 
@@ -49,15 +54,21 @@ html, body {
 
 .grid td.middle{
   background-color: #a64c68bb;
+  color: #3c0404cc;
+  font-size: xx-large;
 }
 
 .grid td.corner, .grid td.edge{
   cursor: pointer;
 }
 
-#resultsTableContainer{
+#resultsTableContainer, #intResultsTableContainer, #intBoardContainer{
   overflow-x: auto;
   width: 100%;
+}
+
+#intBoardContainer{
+  padding:3px 0;
 }
 
 #resultsTableContainer table, #resultsTableContainer th, #resultsTableContainer td{
@@ -65,27 +76,28 @@ html, body {
   border-collapse: collapse;
 }
 
-#resultsTableContainer table{
+#intResultsTableContainer table, #intResultsTableContainer th, #intResultsTableContainer td{
+  border:1px solid #2b2b2d;
+  border-collapse: collapse;
+}
+
+#resultsTableContainer table, #intResultsTableContainer table, #intBoardContainer table{
   white-space: nowrap;
 }
 
-#resultsTable{
+#resultsTable, #intResultsTable{
   width: 100%;
 }
 
-#resultsTableContainer th, #resultsTableContainer td {
+#resultsTableContainer th, #resultsTableContainer td, #intResultsTableContainer th, #intResultsTableContainer td{
   padding:2px;
 }
 
-#detailTableContainer{
+#detailTableContainer, #intDetailTableContainer{
   padding:5px 0px;
 }
 
-#detailTable{
-  width:60%;
-}
-
-.intSetting{
+.intBoardInitSetting{
   width: 40px;
 }
 
@@ -95,16 +107,58 @@ html, body {
 }
 
 #intBoardContainer tr{
-  height: 40px;
+  height: 30px;
 }
 
 
 #intBoardContainer td{
   background-color: #484d6977;
-  width: 40px;
+  color:#08080ccc;
+  width: 30px;
+  text-align: center;
 }
 
 
 #intBoardContainer td.active{
   background-color: #fff157;
+  color:#290d02bb;
+}
+
+#intBoard{
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none;
+}
+
+button {
+    text-rendering: auto;
+    color: black;
+    letter-spacing: normal;
+    word-spacing: normal;
+    line-height: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    text-align: center;
+    cursor: default;
+    box-sizing: border-box;
+    background-color: #efeff3;
+    margin: 0em 0em 0em 0em;
+    padding-block: 1px;
+    padding-inline: 6px;
+    border: 1px solid black;
+}
+
+button:disabled{
+  background-color: #e4e4e7;
+  color: #707070;
+  border: 1px solid #707070;
+}
+
+button.highlighted{
+  background-color: #bdffbd;
+  border: 1px solid #00760e;
 }

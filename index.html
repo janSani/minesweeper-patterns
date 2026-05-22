@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <head>
-    <title>Neighborhood</title>
+    <title>Minesweeper and INT patterns</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/style.css"></link>
 </head>
 <body>
-    <header>
-        <h1>Moore neighborhood and Minesweeper</h1>
+    <header style="line-height: 0.5">
+        <h1>Minesweeper and INT patterns</h1>
+        <h3>(Isotropic non-totalistic)</h3>
     </header>
     <section class="ramble">
-        <h2>Interactive grid</h2>
+        <h2>Interactive Hensel notation grid</h2>
     </section>
-    <div class="container grid">
+    <div class="intGridContainer grid">
         <table>
             <tr>
                 <td id="cellA1" class="corner"></td>
@@ -30,100 +31,155 @@
             </tr>
         </table>
     </div>
-    <div class="container text" id="golly">0</div>
-    <div class="container text" id="silly">Empty</div>
-    <div class="container">
-        <button id="clearBtn">Clear</button>
-        <button id="invertBtn">Invert</button>
-        <button id="randomBtn">Random</button>
+    <!-- <div class="intGridContainer text" id="gridGollyName">0</div> -->
+    <div class="intGridContainer text" id="gridSillyName">Empty</div>
+    <div class="intGridContainer">
+        <button id="gridClearBtn">Clear</button>
+        <button id="gridInvertBtn">Invert</button>
+        <button id="gridRandomBtn">Random</button>
     </div>
     
     <section class="ramble">
         <h3>Details and motivation</h3>
-        <p>The Moore neighborhood is defined on a two dimensional square lattice and is composed of a central cell
-            and the eight cells that surround it.
-        </p>
         <p>In the game Minesweeper each numbered clue is surrounded by the corresponding 
-            number of mines in a Moore neighborhood.
-            Some years ago I made myself a simple question, how many different ways can mines surround a clue?
+            number of mines in a Moore neighborhood, i.e. the 3x3 square lattice around the clue.
+            Some years ago I asked myself how many different ways can mines surround a clue.
             It's clear that there's 512 possible ways, but treating those that are the same under rotation and reflection as one,
-            the number drops down to only 51. I made a table with all of these named them.
+            the number drops down to only 51. I made a table with all of these and named them.
         </p>
         <p>
-            It wasn't until recently and under further inspection of the Game of Life algorithms, I realised the
+            I am not the first one to do this, as you'd expect, but it wasn't until recently and under further inspection of the Game of Life algorithms 
             section about <a href="https://golly.sourceforge.io/Help/Algorithms/QuickLife.html" target="_blank" rel="noopener noreferrer">
-            non-totalistic rules</a> had very similar table to the one I made, but with a more organized (and useful) naming convention.
+            non-totalistic rules</a> (isotropic non-totalistic since they are indifferent to rotation and reflection, often abbreviated into INT) when I made the correlation:
+            this naming convention could apply to Minesweeper as well. 
+            Developed by Alan Hensel, this notation is often referred to as Hensel notation. Read more about the topic 
+            <a href="https://conwaylife.com/wiki/Isotropic_non-totalistic_rule" target="_blank" rel="noopener noreferrer">here</a>.
         </p>
         <p>
-            So, I decided to make an interactive grid, which would automatically identify the pattern
-            and display which non-totalistic rule satisfies, along with the name I call those patterns.
+            So, to get a better get the hang of these pattern names I decided to make an interactive grid, which would automatically identify the pattern
+            and display which INT rule satisfies, in both Hensel notation and the more empiric name I call the patterns.
         </p>
     </section>
     <section class="ramble">
         <h2>Frequency of each configuration in Minesweeper</h2>
         <p>Putting the focus back on Minesweeper, it's only natural to ask how often these patterns appear in actual boards.</p>
-        <p>In order to estimate this I ran some simulations. I am purposefully ignoring nuances like first click or 3BV and simply generating
+        <p>In order to estimate this, I ran some simulations. I am purposefully ignoring nuances like first click or 3BV and simply generating
             random boards of given size and number of mines, then identifying the configuration for each neighborhood.  
-            By default the algorithm does this to every cell, but we can limit the search to non-mines or cells not on the boundary, 
-            just for the sake of analysis.</p>
-        <p>Before showing you my results, I invite you to try it yourself and see the results building up in real time with the interactive board.
-            Alternatively you can draw on the board, and the results table will update for you.
+            By default the algorithm does this to every cell, but we can limit the search to non-mines (clues or empty cells;) to
+            cells not on the boundary, since those on the boundary can't have certain patterns (like 2n or 3q;) or both conditions.</p>
+        <p>Before showing you my results, I encourage you to try the interactive board yourself and see the results building up in real time.
+            Alternatively you can draw on the board, and the results table will update for you. Just mind large size boards on mobile are a little
+            hard to draw on. 
         </p>
-        <h3>Interactive board</h3>
-        <label for="intBoardSel">Select a board</label>
-        <select name="intBoardSel" id="intBoardSel">
-            <option value="beginner8x8">Beginner 8x8</option>
-            <option value="beginner9x9">Beginner 9x9</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="expert">Expert</option>
-            <option value="custom">Custom</option>
-        </select>
-        <br>
-        <label for="intBoardWidth">Width</label>
-        <input type="text" id="intBoardWidth" value="8" class="intSetting" disabled>
-        <label for="intBoardHeight">Height</label>
-        <input type="text" id="intBoardHeight" value="8" class="intSetting" disabled>
-        <label for="intBoardMines">Mines</label>
-        <input type="text" id="intBoardMines" value="10" class="intSetting" disabled>
-        <br>
-        <select name="intMode" id="intMode">
-            <option value="generate">Board generator</option>
-            <option value="draw">Draw your own board</option>
-        </select>
-        <button id="makeIntBoardBtn">Make board</button>
+        <p>If you want to actually play a non-totalistic Minesweeper, take a look at
+            <a href="https://t6970.codeberg.page/INT-Minesweeper/" target="_blank" rel="noopener noreferrer">this variant</a> by T6970. Keep in mind there are no numbers, c can
+            either refer to 1c, 2c, 3c, and so on.
+        </p>
+        <h2>Interactive board</h2>
+        <div id="intBoardInitialSettings" class="settingsContainer">
+            <label for="intBoardSel">Select a board</label>
+            <select name="intBoardSel" id="intBoardSel">
+                <option value="beginner8x8">Beginner 8x8</option>
+                <option value="beginner9x9">Beginner 9x9</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="expert">Expert</option>
+                <option value="custom">Custom</option>
+            </select>
+            <br>
+            <label for="intBoardWidth">Width</label>
+            <input type="number" id="intBoardWidth" value="8" min="1" autocomplete="off" class="intBoardInitSetting" disabled>
+            <label for="intBoardHeight">Height</label>
+            <input type="number" id="intBoardHeight" value="8" min="1" autocomplete="off" class="intBoardInitSetting" disabled>
+            <label for="intBoardMines">Mines</label>
+            <input type="number" id="intBoardMines" value="10" min="0" autocomplete="off" class="intBoardInitSetting" disabled>
+            <br>
+            <select name="intMode" id="intMode">
+                <option value="generate">Board generator</option>
+                <option value="draw">Draw your own board</option>
+            </select>
+            <button id="makeIntBoardBtn">Make board / Reset results</button>
+            <button id="hideIntBoardBtn" hidden>Hide all</button>
+        </div>
         <div id="intBoardContainer">
             <table id="intBoard"></table>
         </div>
+        <div id="intBoardGenSettings" class="settingsContainer" hidden>
+            <label for="startSimulationBtn" id="simulationLabel">Generation</label>
+            <button id="startSimulationBtn">Start</button>
+            <button id="stepSimulationBtn">Step</button>
+            <span id="boardsGeneratedInd">Boards generated so far: 1</span>
+            <br>
+        </div>
+        <div id="intBoardDrawSettings" class="settingsContainer" hidden>
+            <button id="intBoardDrawClearBtn">Clear</button>
+            <button id="intBoardDrawInvertBtn">Invert</button>
+            <button id="intBoardDrawRandomBtn">Random</button>
+        </div>
+        <div id="intBoardResultSettings" class="settingsContainer" hidden>
+            <label for="intConditionSel" id="intConditionLabel">What results to show?</label>
+            <select name="intConditionSel" id="intConditionSel">
+                <option value="fullBoard">All cells (mines and non-mines)</option>
+                <option value="emptyCells">Only non-mine cells</option>
+                <option value="nonBoundary">Cells not on the boundary</option>
+                <option value="nonBoundaryEmpty">Non-mine cells not on the boundary</option>
+            </select>
+            <select name="intTableSel" id="intTableSel">
+                <option value="bothTables">General and specific</option>
+                <option value="onlyGeneral">Only general</option>
+                <option value="onlyDetail">Only specific</option>
+            </select>
+            <input type="checkbox" name="showAccumulated" id="showAccumulated" checked>
+            <label for="showAccumulated" id="accumulateLabel">Accumulated</label>
+            <br>
+            <button id="intResultsBtn">Show me some results</button>
+        </div>        
+        <div id="intResultsTableContainer" hidden>
+            <table id="intResultsTable"></table>
+            <div id="intDetailTableSettings" hidden>
+                <label for="intDetailSel" id="intDetailLabel">Counts and frequency within number</label>
+                <select name="intDetailSel" id="intDetailSel"></select>
+                <br>
+                <span id="intGenPauseWarning">Changing this pauses board generation, click outside the menu to resume</span>
+            </div>
+            <div id="intDetailTableContainer">
+                <table id="intDetailTable"></table>
+            </div>
+        </div>
     </section>
     <section class="ramble">
-        <h3>My results</h3>
+        <h2>My results</h2>
         <p>For each board size, I generated 10 millions boards. I didn't get any 8s in beginner 9x9, which is to be expected,
             as the theoretical probability for an 8 in this size is around 1 in 15 million, 
             compared to the 1 in 2.8 million of beginner 8x8.
         </p>
         <p>This is not an exhaustive search, the less common numbers like 7 and 8 may not robustly reflect the true probability of finding these on boards.
             Also we have the first click condition which I mentioned earlier. 
-            Feel free to take a look at the code on this page or its <a href="https://github.com/janSani/moore-neighborhood">repository</a> 
+            Feel free to take a look at the code on this page or its <a target="_blank" rel="noopener noreferrer" href="https://github.com/janSani/moore-neighborhood">repository</a> 
             if you want to dig further in. Be mindful the code is probably far from being optimal.
         </p>
-        <label for="boardSel">Select a board</label>
-        <select name="boardSel" id="boardSel">
-            <option value="beginner8x8">Beginner 8x8</option>
-            <option value="beginner9x9">Beginner 9x9</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="expert">Expert</option>
-        </select><br>
-        <label for="conditionSel">Limit search to</label>
-        <select name="conditionSel" id="conditionSel">
-            <option value="fullBoard">All cells (mines and non-mines)</option>
-            <option value="emptyCells">Only non-mine cells</option>
-            <option value="nonBoundary">Cells not on the boundary</option>
-            <option value="nonBoundaryEmpty">Non-mine cells not on the boundary</option>
-        </select><br>
-        <button id="resultsBtn">Show me some results</button>
+        <div id="resultsMiscSettings" class="settingsContainer">
+            <label for="boardSel">Select a board</label>
+            <select name="boardSel" id="boardSel">
+                <option value="beginner8x8">Beginner 8x8</option>
+                <option value="beginner9x9">Beginner 9x9</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="expert">Expert</option>
+            </select><br>
+            <label for="conditionSel">Limit results to</label>
+            <select name="conditionSel" id="conditionSel">
+                <option value="fullBoard">All cells (mines and non-mines)</option>
+                <option value="emptyCells">Only non-mine cells</option>
+                <option value="nonBoundary">Cells not on the boundary</option>
+                <option value="nonBoundaryEmpty">Non-mine cells not on the boundary</option>
+            </select>
+            <button id="resultsBtn">Show me some results</button>
+        </div>
         <div id="resultsTableContainer">
-            You may have to scroll sideways to read the full table.
             <table id="resultsTable"></table>
+            <div id="detailTableSettings" hidden>
+                <label for="detailSel" id="detailLabel">Counts and frequency within number:</label>
+                <select name="detailSel" id="detailSel"></select>
+            </div>
             <div id="detailTableContainer">
                 <table id="detailTable"></table>
             </div>
@@ -131,8 +187,7 @@
     </section>
     <footer><a href="..">Check out my other stuff</a></footer>
     <script src="scripts/patterns.js"></script>
-    <script src="scripts/update.js"></script>
-    <script src="scripts/buttons.js"></script>
+    <script src="scripts/interactive-grid.js"></script>
     <script src="scripts/simulation-funcs.js"></script>
     <script src="scripts/results.js"></script>
     <script src="scripts/tablemaker.js"></script>

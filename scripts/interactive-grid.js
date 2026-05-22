@@ -27,13 +27,35 @@ function updateState(){
 
 let gollyName = "";
 let sillyName = "";
-let gollyContainer = document.getElementById("golly");
-let sillyContainer = document.getElementById("silly");
+let gollyContainer = document.getElementById("cellB2");
+let sillyContainer = document.getElementById("gridSillyName");
 
 function updateText(){
     [gollyName, sillyName] = updateState();
     gollyContainer.innerText = gollyName;
-    sillyContainer.innerText = sillyName;
+    sillyContainer.innerText = gollyName +": "+ sillyName;
 }
+
+document.getElementById("gridClearBtn").addEventListener('click',()=>{
+    cells.forEach(cell=>{
+        cell.classList.remove('active');
+        updateText();
+    })
+});
+
+document.getElementById("gridInvertBtn").addEventListener('click',()=>{
+    cells.forEach(cell=>{
+        cell.classList.toggle('active');
+        updateText();
+    })
+});
+
+document.getElementById("gridRandomBtn").addEventListener('click',()=>{
+    cells.forEach(cell=>{
+        if(Math.random()>0.5)cell.classList.add('active');
+        else cell.classList.remove('active');
+        updateText();
+    })
+});
 
 updateText();
